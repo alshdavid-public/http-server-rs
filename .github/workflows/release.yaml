@@ -15,7 +15,6 @@ on:
 
 env:
   PROJECT_NAME: http-server
-  JUST_VERSION: "1.36.0"
 
 jobs:
   vars:
