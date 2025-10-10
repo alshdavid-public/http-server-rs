@@ -143,10 +143,10 @@ jobs:
         run: |
           set -e
 
-          echo "Tag: ${GH_TAG}"
+          echo "Tag: ${NPM_VER}"
 
-          gh release create $GH_TAG  --draft --notes "Automatically built binaries"
-          gh release edit $GH_TAG --title "🚀 Latest"
+          gh release create $NPM_VER  --draft --notes "Automatically built binaries"
+          gh release edit $NPM_VER --title "🚀 Latest"
 
           cd artifacts
 
@@ -154,10 +154,10 @@ jobs:
             cd "${{ github.workspace }}/artifacts/${name}/release"
             chmod +x ./*
             tar -czvf ./${name}.tar.gz ./*
-            gh release upload $GH_TAG ${name}.tar.gz
+            gh release upload $NPM_VER ${name}.tar.gz
           done
 
-          gh release edit $GH_TAG --draft=false
+          gh release edit $NPM_VER --draft=false
 
   publish-npm-package:
     name: "🔄 Publish NPM Package"
@@ -177,7 +177,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> $HOME/.npmrc
-          echo "GH_TAG: ${GH_TAG}"
+          echo "GH_TAG: ${NPM_VER}"
           echo "NPM_VER: ${NPM_VER}"
           node .github/scripts/string-replace.mjs ./npm/package.json "0.0.0-local" "$NPM_VER"
           cp ./README.md ./npm/README.md
