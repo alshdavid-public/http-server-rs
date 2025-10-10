@@ -130,10 +130,10 @@ jobs:
           var=$var+1
           TAG="0.0.$var"
 
-          echo "Tag: ${NPM_VER}"
+          echo "Tag: ${TAG}"
 
-          gh release create $NPM_VER  --draft --notes "Automatically built binaries"
-          gh release edit $NPM_VER --title "🚀 Latest"
+          gh release create $TAG  --draft --notes "Automatically built binaries"
+          gh release edit $TAG --title "🚀 Latest"
 
           cd artifacts
 
@@ -141,10 +141,10 @@ jobs:
             cd "${{ github.workspace }}/artifacts/${name}/release"
             chmod +x ./*
             tar -czvf ./${name}.tar.gz ./*
-            gh release upload $NPM_VER ${name}.tar.gz
+            gh release upload $TAG ${name}.tar.gz
           done
 
-          gh release edit $NPM_VER --draft=false
+          gh release edit $TAG --draft=false
 
           echo "VERSION=$TAG" >> "$GITHUB_OUTPUT"
 
