@@ -157,8 +157,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: eval $(curl -sSf sh.davidalsh.com/nodejs.sh | sh)
       - env:
-          GH_TAG: ${{needs.vars.outputs.GH_TAG}}
-          NPM_VER: ${{needs.vars.outputs.NPM_VER}}
+          NPM_VER: ${{needs.publish-github-release.outputs.VERSION}}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> $HOME/.npmrc
