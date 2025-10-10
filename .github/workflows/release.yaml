@@ -17,27 +17,6 @@ env:
   PROJECT_NAME: http-server
 
 jobs:
-  vars:
-    name: "📋 Generate Variables"
-    runs-on: ubuntu-24.04
-    outputs:
-      NPM_VER: ${{ steps.tag.outputs.NPM_VER }}
-      GH_TAG: ${{ steps.tag.outputs.GH_TAG }}
-    steps:
-      - run: eval $(curl -sSf sh.davidalsh.com/nodejs.sh | sh)
-      - id: tag
-        run: |
-          declare -i var=$(npm info http-server-rs version | cut -d "." -f 3)
-          var=$var+1
-          NPM_VER="0.0.$var"
-
-          GH_TAG="$(date -u +"v%Y.%m.%d.%H%M").${GITHUB_SHA::4}"
-
-          echo NPM_VER: $NPM_VER
-          echo GH_TAG:$GH_TAG
-          echo "NPM_VER=$NPM_VER" >> "$GITHUB_OUTPUT"
-          echo "GH_TAG=$GH_TAG" >> "$GITHUB_OUTPUT"
-
   test:
     name: 🧪 Test
     runs-on: ubuntu-24.04
@@ -125,8 +104,9 @@ jobs:
   publish-github-release:
     name: "🔄 Publish Github Release"
     runs-on: ubuntu-24.04
+    outputs:
+      VERSION: ${{ steps.tag.outputs.VERSION }}
     needs:
-      - vars
       - test
       - format
       - lint
@@ -141,6 +121,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
+
+          LAST_TAG=$(curl -sSL https://api.github.com/repos/alshdavid/http-server-rs/releases/latest | jq ".tag_name" | cut -d "." -f 3)
+          if [ "$LAST_TAG" = "" ]; then
+            LAST_TAG="0"
+          fi
+          declare -i var="$LAST_TAG"
+          var=$var+1
+          TAG="0.0.$var"
 
           echo "Tag: ${NPM_VER}"
 
@@ -158,15 +146,13 @@ jobs:
 
           gh release edit $NPM_VER --draft=false
 
+          echo "VERSION=$TAG" >> "$GITHUB_OUTPUT"
+
   publish-npm-package:
     name: "🔄 Publish NPM Package"
     runs-on: ubuntu-24.04
     needs:
-      - vars
-      - test
-      - format
-      - lint
-      - build
+      - publish-github-release
     steps:
       - uses: actions/checkout@v4
       - run: eval $(curl -sSf sh.davidalsh.com/nodejs.sh | sh)
