@@ -101,7 +101,7 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-  publish-github-release:
+  publish_github_release:
     name: "🔄 Publish Github Release"
     runs-on: ubuntu-24.04
     outputs:
@@ -152,12 +152,12 @@ jobs:
     name: "🔄 Publish NPM Package"
     runs-on: ubuntu-24.04
     needs:
-      - publish-github-release
+      - publish_github_release
     steps:
       - uses: actions/checkout@v4
       - run: eval $(curl -sSf sh.davidalsh.com/nodejs.sh | sh)
       - env:
-          NPM_VER: ${{needs.publish-github-release.outputs.VERSION}}
+          NPM_VER: ${{needs.publish_github_release.outputs.VERSION}}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> $HOME/.npmrc
