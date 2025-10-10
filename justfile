@@ -1,4 +1,4 @@
-project_name := "http-server"
+project_name := "http-server-rs"
 profile := env_var_or_default("profile", "debug")
 
 os := \

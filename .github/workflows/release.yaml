@@ -14,7 +14,7 @@ on:
       - "main"
 
 env:
-  PROJECT_NAME: http-server
+  PROJECT_NAME: http-server-rs
 
 jobs:
   test:
@@ -148,23 +148,23 @@ jobs:
 
           echo "VERSION=$TAG" >> "$GITHUB_OUTPUT"
 
-  publish-npm-package:
-    name: "🔄 Publish NPM Package"
-    runs-on: ubuntu-24.04
-    needs:
-      - publish_github_release
-    steps:
-      - uses: actions/checkout@v4
-      - run: eval $(curl -sSf sh.davidalsh.com/nodejs.sh | sh)
-      - env:
-          NPM_VER: ${{needs.publish_github_release.outputs.VERSION}}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> $HOME/.npmrc
-          echo "GH_TAG: ${NPM_VER}"
-          echo "NPM_VER: ${NPM_VER}"
-          node .github/scripts/string-replace.mjs ./npm/package.json "0.0.0-local" "$NPM_VER"
-          cp ./README.md ./npm/README.md
-          cd npm
-          echo "$GH_TAG" > tag
-          npm publish --access=public
+  # publish-npm-package:
+  #   name: "🔄 Publish NPM Package"
+  #   runs-on: ubuntu-24.04
+  #   needs:
+  #     - publish_github_release
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - run: eval $(curl -sSf sh.davidalsh.com/nodejs.sh | sh)
+  #     - env:
+  #         NPM_VER: ${{needs.publish_github_release.outputs.VERSION}}
+  #         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  #       run: |
+  #         echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> $HOME/.npmrc
+  #         echo "GH_TAG: ${NPM_VER}"
+  #         echo "NPM_VER: ${NPM_VER}"
+  #         node .github/scripts/string-replace.mjs ./npm/package.json "0.0.0-local" "$NPM_VER"
+  #         cp ./README.md ./npm/README.md
+  #         cd npm
+  #         echo "$GH_TAG" > tag
+  #         npm publish --access=public
