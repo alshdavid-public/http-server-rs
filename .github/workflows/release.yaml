@@ -122,7 +122,7 @@ jobs:
         run: |
           set -e
 
-          LAST_TAG=$(curl -sSL https://api.github.com/repos/alshdavid/http-server-rs/releases/latest | jq ".tag_name" | cut -d "." -f 3)
+          LAST_TAG=$(curl -sSL https://api.github.com/repos/alshdavid/http-server-rs/releases/latest | jq ".tag_name" | cut -d "." -f 3 | tr -d '"')
           if [ "$LAST_TAG" = "" ]; then
             LAST_TAG="0"
           fi
