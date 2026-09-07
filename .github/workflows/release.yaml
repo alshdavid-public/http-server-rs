@@ -90,7 +90,7 @@ jobs:
           - name: 🍎 MacOS ARM64
             runner: macos-15
             os: macos
-            arch: arm64
+            arch: arm64rustup target add x86_64-pc-windows-msvc
             target: aarch64-apple-darwin
 
           - name: 🟦 Windows AMD64
@@ -113,6 +113,7 @@ jobs:
       - version
       - format
       - lint
+      - test
     steps:
       - uses: actions/checkout@v7
       - run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && echo "$HOME/.cargo/bin" >> $GITHUB_PATH
@@ -144,13 +145,13 @@ jobs:
           path: ${{ github.workspace }}/artifacts/**/*
           if-no-files-found: error
           retention-days: 1
+
   publish_github_release:
     name: "🔄 Publish Github Release"
     runs-on: ubuntu-24.04
-    outputs:
-      VERSION: ${{ steps.tag.outputs.VERSION }}
     needs:
       - build
+      - version
     steps:
       - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
