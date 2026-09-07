@@ -105,8 +105,8 @@ pub fn render_directory_explorer(
     }
   }
 
-  folders.sort_by(|a, b| a.3.to_lowercase().cmp(&b.3.to_lowercase()));
-  files.sort_by(|a, b| a.5.to_lowercase().cmp(&b.5.to_lowercase()));
+  folders.sort_by_key(|a| a.3.to_lowercase());
+  files.sort_by_key(|a| a.5.to_lowercase());
 
   let handlebars = Handlebars::new();
   let Ok(output) = handlebars.render_template(

@@ -45,16 +45,15 @@ impl Config {
     }
 
     let serve_dir_abs: PathBuf;
-    let serve_dir_rel: PathBuf;
 
-    if command.serve_dir.is_absolute() {
+    let serve_dir_rel: PathBuf = if command.serve_dir.is_absolute() {
       let serve_dir = command.serve_dir.normalize();
       serve_dir_abs = serve_dir;
-      serve_dir_rel = diff_paths(&serve_dir_abs, &cwd).unwrap();
+      diff_paths(&serve_dir_abs, &cwd).unwrap()
     } else {
       serve_dir_abs = cwd.join(&command.serve_dir).normalize();
-      serve_dir_rel = diff_paths(&serve_dir_abs, &cwd).unwrap();
-    }
+      diff_paths(&serve_dir_abs, &cwd).unwrap()
+    };
 
     let mut headers = HashMap::<String, Vec<String>>::new();
 
@@ -106,7 +105,7 @@ impl Config {
     if command.cache_time == 0 {
       headers.insert(
         "Cache-Control".to_string(),
-        vec![format!("no-cache, no-store, must-revalidate")],
+        vec!["no-cache, no-store, must-revalidate".to_string()],
       );
     } else {
       headers.insert(
