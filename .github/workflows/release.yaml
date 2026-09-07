@@ -129,7 +129,7 @@ jobs:
         run: cargo build --target ${{ matrix.config.target }} --release
 
       - run: |
-          mkdir -p artifacts/${{ matrix.config.os }}-${{ matrix.config.arch }}
+          mkdir -p artifacts/${{ env.PROJECT_NAME }}-${{ matrix.config.os }}-${{ matrix.config.arch }}
           ls -l 
           ls -l target
           ls -l target/${{ matrix.config.target }}
