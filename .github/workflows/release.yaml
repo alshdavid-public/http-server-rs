@@ -137,7 +137,7 @@ jobs:
 
       - env:
           EXE: ${{ runner.os == 'Windows' && '.exe' || '' }}
-        run: cp target/${{ matrix.config.target }}/release/${{ env.PROJECT_NAME }}$EXE ./artifacts/${{ matrix.config.os }}-${{ matrix.config.arch }}
+        run: cp target/${{ matrix.config.target }}/release/${{ env.PROJECT_NAME }}$EXE ./artifacts/${{ env.PROJECT_NAME }}-${{ matrix.config.os }}-${{ matrix.config.arch }}
 
       - uses: actions/upload-artifact@v7
         with:
