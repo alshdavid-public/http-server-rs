@@ -43,7 +43,6 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - run: eval $(curl -sSf sh.davidalsh.com/just.sh | sh)
       - run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && echo "$HOME/.cargo/bin" >> $GITHUB_PATH
       - run: cargo test
 
@@ -61,7 +60,6 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - run: eval $(curl -sSf sh.davidalsh.com/just.sh | sh)
       - run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && echo "$HOME/.cargo/bin" >> $GITHUB_PATH
       - run: cargo clippy --all-targets --workspace -- -D warnings
 
