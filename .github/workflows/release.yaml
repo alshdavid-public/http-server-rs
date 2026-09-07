@@ -90,7 +90,7 @@ jobs:
           - name: 🍎 MacOS ARM64
             runner: macos-15
             os: macos
-            arch: arm64rustup target add x86_64-pc-windows-msvc
+            arch: arm64
             target: aarch64-apple-darwin
 
           - name: 🟦 Windows AMD64
