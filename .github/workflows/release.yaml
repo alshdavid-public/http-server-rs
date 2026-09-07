@@ -98,6 +98,7 @@ jobs:
             os: windows
             arch: amd64
             target: x86_64-pc-windows-msvc
+            run: rustup target add x86_64-pc-windows-msvc
 
           - name: 🟦 Windows ARM64
             runner: windows-latest
