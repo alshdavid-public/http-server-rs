@@ -129,7 +129,7 @@ jobs:
       - run: mkdir -p artifacts/${{ matrix.config.os }}-${{ matrix.config.arch }}
       - env:
           EXE: ${{ runner.os == 'Windows' && '.exe' || '' }}
-        run: cp target/${{ matrix.config.target }}/release/git-ai$EXE ./artifacts/${{ matrix.config.os }}-${{ matrix.config.arch }}
+        run: cp target/${{ matrix.config.target }}/release/${{ env.PROJECT_NAME }}$EXE ./artifacts/${{ matrix.config.os }}-${{ matrix.config.arch }}
 
       - uses: actions/upload-artifact@v7
         with:
