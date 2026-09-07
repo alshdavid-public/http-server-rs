@@ -126,7 +126,13 @@ jobs:
           profile: "release"
         run: cargo build --target ${{ matrix.config.target }} --release
 
-      - run: mkdir -p artifacts/${{ matrix.config.os }}-${{ matrix.config.arch }}
+      - run: |
+          mkdir -p artifacts/${{ matrix.config.os }}-${{ matrix.config.arch }}
+          ls -l 
+          ls -l target
+          ls -l target/${{ matrix.config.target }}
+          ls -l target/${{ matrix.config.target }}/release
+
       - env:
           EXE: ${{ runner.os == 'Windows' && '.exe' || '' }}
         run: cp target/${{ matrix.config.target }}/release/${{ env.PROJECT_NAME }}$EXE ./artifacts/${{ matrix.config.os }}-${{ matrix.config.arch }}
