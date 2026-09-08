@@ -2,6 +2,8 @@
 name = "http-server-rs"
 version = "0.0.0-local"
 edition = "2021"
+description = "Simple, zero-configuration command-line static HTTP server."
+license = "MIT"
 
 [lints.rust]
 elided_lifetimes_in_paths = "allow"
